@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Inicia Sesión por tu seguridad</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #a0e7f9;
+      font-family: Arial, sans-serif;
+    }
+
+    .centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, red, blue, green, yellow, red, pink, );
+      animation: rotate 5s linear infinite;
+      z-index: 0;
+    }
+
+    .form-container::after {
+      content: '';
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      right: 5px;
+      bottom: 5px;
+      background: white;
+      border-radius: 10px;
+      z-index: 1;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .form-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px 0;
+      border: 2px solid #00bfff;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #00bfff;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0099cc;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .media-gallery img, .media-gallery video {
+      max-width: 100%;
+      margin: 10px 0;
+    }
+
+    .media-gallery {
+      text-align: center;
+      padding: 20px;
+    }
+
+    #uploadInput {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Página de Inicio de Sesión -->
+  <div class="centered" id="loginPage">
+    <div class="form-container">
+      <div class="form-content">
+        <h2>Iniciar Sesión</h2>
+        <input type="text" id="username" placeholder="Usuario">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="login()">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Página de Galería -->
+  <div class="hidden" id="galleryPage">
+    <div class="media-gallery">
+      <h2>Bienvenida Tania Jaqueline</h2>
+      <img src="tania0.jpg" width="300" height="200">
+      <img src="tania1.jpg" width="300" height="200">
+      <img src="tania2.jpg" width="300" height="200">
+      <img src="tania3.jpg" width="300" height="200">
+      <img src="tania4.jpg" width="300" height="400">
+      <img src="tania5.jpg" width="300" height="400">
+      <img src="tania6.jpg" width="400" height="400">
+      <img src="tania8.jpg" width="300" height="400">
+      <img src="tania9.jpg" width="300" height="400">
+      <img src="tanua.jpg" width="300" height="200">
+      
+      <input type="file" id="uploadInput" accept="image/*" onchange="uploadImage(event)">
+      <div id="uploadedImages"></div>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if(username && password){
+        document.getElementById("loginPage").classList.add("hidden");
+        document.getElementById("galleryPage").classList.remove("hidden");
+      } else {
+        alert("Por favor, completa ambos campos.");
+      }
+    }
+
+    function uploadImage(event) {
+      const files = event.target.files;
+      const output = document.getElementById("uploadedImages");
+
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          img.style.maxWidth = "400px";
+          img.style.marginTop = "10px";
+          output.appendChild(img);
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    }
+  </script>
+</body>
+</html>
